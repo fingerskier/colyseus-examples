@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node index.ts",
+    "dev": "tsnodemon index.ts",
     "heroku-postbuild": "npm run build"
   },
   "engines": {
@@ -22,6 +23,7 @@
   },
   "devDependencies": {
     "ts-node": "^8.3.0",
+    "tsnodemon": "^1.2.2",
     "typescript": "^3.5.3"
   }
 }

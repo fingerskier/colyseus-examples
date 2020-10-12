@@ -1,7 +1,14 @@
 import { Room, Client } from "colyseus";
-import request from "superagent";
 
-const FACEBOOK_APP_TOKEN = "135829507120512|3a97320bee18f2286d6243dcf4cc7a23";
+
+function validLogin(username='', password='') {
+    return (username === 'test') && (password === 'pass')
+}
+
+function validToken(token='',username='') {
+    return (username === 'test') && (token === '1234')
+}
+
 
 export class AuthRoom extends Room {
     onCreate (options: any) {
@@ -13,14 +20,18 @@ export class AuthRoom extends Room {
     }
 
     async onAuth (client: Client, options: any) {
-        const response = await request.get(`https://graph.facebook.com/debug_token`).
-            query({
-                input_token: options.accessToken,
-                access_token: FACEBOOK_APP_TOKEN
-            }).
-            set('Accept', 'application/json');
+        console.log('auth.client', client.id)
+        console.log('auth.options', options)
 
-        return response.body.data;
+        const {accessToken,password,username} = options
+
+        if (validToken(accessToken,username)) {
+            return true
+        } else if (validLogin(username,password)) {
+            return true
+        } else {
+            return false
+        }
     }
 
     onJoin (client: Client, options: any, auth: any) {
